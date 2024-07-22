@@ -3,7 +3,9 @@
 
 #include "Character/AuraCharacter.h"
 
+#include "AbilitySystemComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/AuraPlayerState.h"
 
 AAuraCharacter::AAuraCharacter()
 {
@@ -20,4 +22,36 @@ AAuraCharacter::AAuraCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
+}
+
+// PossessedBy函数在Controller获得对Pawn的控制时调用。玩家控制的角色在被玩家控制时需要初始化GAS相关的信息，以确保玩家可以立即使用技能和属性
+void AAuraCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	// Init ability actor info for the Server
+	InitAbilityActorInfo();
+}
+
+// OnRep_PlayerState函数在Player State属性通过网络复制到客户端时调用
+void AAuraCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	// Init ability actor info for the Client
+	InitAbilityActorInfo();
+}
+
+void AAuraCharacter::InitAbilityActorInfo()
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	/*
+	 * pawn 被 controller拥有时 = 这个角色被控制时,所需的技能已经准备好并可以使用
+	 * AuraPlayerState作为Owner Actor，拥有逻辑状态和数据。
+	 * this（即当前的AAuraCharacter实例）作为Avatar Actor，负责展示和执行技能效果。
+	 */
+	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState, this);
+	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
+	AttributeSet = AuraPlayerState->GetAttributeSet();
 }
