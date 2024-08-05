@@ -69,6 +69,7 @@ public:
 	// 设置参数变换前的事件(不超过最大值比如血量)
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 
+	// 参数效果后的事件(重新设置最大值之类的)
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
 	// 指针函数优化委托

@@ -7,6 +7,10 @@
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "UI/Widgets/AuraUserWidget.h"
 
+/*
+ * 创建新控制器的逻辑: 判空->创建新控制器(NewObject)->填入当前控制人的参数->绑定回调函数->返回控制器
+ */
+
 UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetControllerParams& WCParams)
 {
 	if(OverlayWidgetController == nullptr)

@@ -7,7 +7,7 @@ FAuraAttributeInfo UAttributeInfo::FIndAttributeInfoTag(const FGameplayTag& Attr
 {
 	for (const FAuraAttributeInfo& Info : AttributeInformation)
 	{
-		if(Info.AttributesTag.MatchesTag(AttributeTag))
+		if(Info.AttributesTag.MatchesTagExact(AttributeTag))
 		{
 			return Info;
 		}

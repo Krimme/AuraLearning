@@ -11,8 +11,10 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 {
 	UAuraAttributeSet* AS = CastChecked<UAuraAttributeSet>(AttributeSet);
 	check(AttributeInfo);
+	
 	for(auto& Pair : AS->TagsToAttributes)
 	{
+		// 自动注册委托
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
 		[this, Pair, AS](const FOnAttributeChangeData)
 		{

@@ -34,6 +34,8 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 
 	// Init ability actor info for the Server
 	InitAbilityActorInfo();
+	// 初始化角色能力
+	AddCharacterAbilities();
 }
 
 // OnRep_PlayerState函数在Player State属性通过网络复制到客户端时调用
